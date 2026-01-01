@@ -113,3 +113,15 @@ def read_one(request, book_id):
         return JsonResponse(book.to_dict())
     except Book.DoesNotExist:
         return HttpResponse(status=404)
+
+
+def read_by_publisher(request, publisher_id):
+    books = Book.objects.filter(publisher__id=publisher_id)
+    books_data = [book.to_dict() for book in books]
+    return JsonResponse(books_data, safe=False)
+
+
+def read_by_author(request, author_id):
+    books = Book.objects.filter(author__id=author_id)
+    books_data = [book.to_dict() for book in books]
+    return JsonResponse(books_data, safe=False)
