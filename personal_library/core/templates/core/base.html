@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Personal Library{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        {% block header %}
+        <!-- Header content will be added by child templates -->
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Main content will be added by child templates -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        {% block footer %}
+        <!-- Footer content will be added by child templates -->
+        {% endblock %}
+    </footer>
+
+    {% block extra_js %}
+    <!-- Additional JavaScript can be added by child templates -->
+    {% endblock %}
+</body>
+</html>
