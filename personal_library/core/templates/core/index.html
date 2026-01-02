@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Personal Library - Home{% endblock %}
+
+{% block header %} 
+    <!-- Navigation Menu -->
+    <div>
+        <!-- <h2>Main Navigation</h2> -->
+        <ul class="nav-list">
+            <li><a href="/">All Books</a></li>
+            <li><a href="/authors/">Authors</a></li>
+            <li><a href="/publishers/">Publishers</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to Personal Library</h1>
+    
+    <!-- Search Form -->
+    <form method="GET" class="search-form">
+        <div class="search-container">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search books by title..." class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+
+    <!-- Books List -->
+    <div class="books-section">
+        <h2>{% if query %}Search Results for "{{ query }}"{% else %}All Books{% endif %}</h2>
+        
+        {% if books %}
+            <div class="books-grid">
+                {% for book in books %}
+                    <div class="book-item">
+                        <h3>{{ book.title }}</h3>
+                        <p><strong>Author:</strong> {{ book.author.name }}</p>
+                        <p><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
+                        <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+                        <p><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:30 }}</p>
+                        {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?q={{ query }}&page=1">&laquo; first</a>
+                            <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="no-results">
+                {% if query %}
+                    No books found matching your search for "{{ query }}". Try a different search term.
+                {% else %}
+                    No books available in the library yet.
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add JavaScript for enhanced search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.querySelector('.search-button').click();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
