@@ -1,11 +1,11 @@
 from django.urls import path
-from . import views
-from .views import books, authors, publishers, book_views
+from .views import books, authors, publishers
 from core._views import authors as author_views
 from core._views import publishers as publisher_views
+from core._views import books as book_views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", book_views.index, name="index"),
     path("api/books/", books.read_all),
     path("api/books/create/", books.create),
     path("api/books/delete/<int:book_id>/", books.delete),
@@ -18,5 +18,4 @@ urlpatterns = [
     path("api/publishers/", publishers.read_all),
     path("authors/", author_views.authors_html, name="authors"),
     path("publishers/", publisher_views.publishers_html, name="publishers"),
-    path("base/", book_views.base),
 ]
