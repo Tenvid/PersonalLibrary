@@ -55,7 +55,8 @@ def delete(request, book_id):
     try:
         book = Book.objects.get(id=book_id)
         book.delete()
-        return HttpResponse(status=204)
+        return redirect("/books/")
+
     except Book.DoesNotExist:
         return HttpResponse(status=404)
 

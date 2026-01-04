@@ -1,63 +1,63 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Edit {{ book.title }} - Personal Library{% endblock %}
+{% block title %}{% if is_new %}Add New Book{% else %}Edit {{ book.title }}{% endif %} - Personal Library{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Edit Book</h1>
-    
+    <h1>{% if is_new %}Add New Book{% else %}Edit Book{% endif %}</h1>
+
     <form method="post" enctype="multipart/form-data" class="book-form">
         {% csrf_token %}
-        
+
         <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="{{ book.title }}" required class="form-control">
+            <input type="text" id="title" name="title" value="{{ book.title|default:'' }}" required class="form-control">
         </div>
-        
+
         <div class="form-group">
             <label for="author">Author:</label>
             <select id="author" name="author" class="form-control" required>
                 <option value="">Select an author</option>
                 {% for author in authors %}
-                    <option value="{{ author.id }}" {% if author.id == book.author.id %}selected{% endif %}>{{ author.name }}</option>
+                    <option value="{{ author.id }}" {% if book and author.id == book.author.id %}selected{% endif %}>{{ author.name }}</option>
                 {% endfor %}
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="publisher">Publisher:</label>
             <select id="publisher" name="publisher" class="form-control">
                 <option value="">Select a publisher</option>
                 {% for publisher in publishers %}
-                    <option value="{{ publisher.id }}" {% if book.publisher and publisher.id == book.publisher.id %}selected{% endif %}>{{ publisher.name }}</option>
+                    <option value="{{ publisher.id }}" {% if book and publisher.id == book.publisher.id %}selected{% endif %}>{{ publisher.name }}</option>
                 {% endfor %}
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="publication_date">Publication Date:</label>
-            <input type="date" id="publication_date" name="publication_date" value="{{ book.publication_date|date:'Y-m-d' }}" required class="form-control">
+            <input type="date" id="publication_date" name="publication_date" value="{{ book.publication_date|date:'Y-m-d'|default:'' }}" required class="form-control">
         </div>
-        
+
         <div class="form-group">
             <label for="synopsis">Synopsis:</label>
-            <textarea id="synopsis" name="synopsis" rows="5" class="form-control" required>{{ book.synopsis }}</textarea>
+            <textarea id="synopsis" name="synopsis" rows="5" class="form-control" required>{{ book.synopsis|default:'' }}</textarea>
         </div>
-        
+
         <div class="form-group">
             <label for="cover_image">Cover Image:</label>
             <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*">
-            {% if book.cover_image %}
+            {% if book and book.cover_image %}
                 <div class="current-image">
                     <p>Current image:</p>
                     <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover-preview">
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update Book</button>
-            <a href="/books/{{ book.id }}/" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">{% if is_new %}Create Book{% else %}Update Book{% endif %}</button>
+            <a href="{% if is_new %}/{% else %}/books/{{ book.id }}/{% endif %}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
