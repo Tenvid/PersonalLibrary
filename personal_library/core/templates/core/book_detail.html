@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ book.title }} - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="book-detail">
+        <div class="book-header">
+            <div class="book-cover-container">
+                {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover-large">
+                {% else %}
+                    <div class="no-cover-placeholder">
+                        <p>No cover image available</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="book-info">
+                <h1>{{ book.title }}</h1>
+                <p><strong>Author:</strong> <a href="/books/author/{{ book.author.id }}/">{{ book.author.name }}</a></p>
+                {% if book.publisher %}
+                    <p><strong>Publisher:</strong> <a href="/books/publisher/{{ book.publisher.id }}/">{{ book.publisher.name }}</a></p>
+                {% else %}
+                    <p><strong>Publisher:</strong> N/A</p>
+                {% endif %}
+                <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+            </div>
+        </div>
+
+        <div class="book-description">
+            <h2>Synopsis</h2>
+            <p>{{ book.synopsis }}</p>
+        </div>
+
+        <div class="book-actions">
+            <a href="/" class="btn btn-secondary">Back to All Books</a>
+            <a href="/books/edit/{{ book.id }}/" class="btn btn-primary">Edit Book</a>
+            <a href="/books/delete/{{ book.id }}/" class="btn btn-danger" 
+               onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add JavaScript for enhanced functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific book detail page functionality here
+    });
+</script>
+{% endblock %}

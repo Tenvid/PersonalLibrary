@@ -23,7 +23,9 @@
             <div class="books-grid">
                 {% for book in books %}
                     <div class="book-item">
-                        <h3>{{ book.title }}</h3>
+                        <a href="/books/{{ book.id }}/">
+                            <h3>{{ book.title }}</h3>
+                        </a>
                         <p><strong>Author:</strong> {{ book.author.name }}</p>
                         <p><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
                         <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>

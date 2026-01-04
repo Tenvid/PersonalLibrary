@@ -172,6 +172,81 @@ footer {
     margin-top: 10px;
 }
 
+.book-cover-large {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.book-cover-preview {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Book detail page styles */
+.book-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.book-header {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.book-cover-container {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.no-cover-placeholder {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    color: #6c757d;
+}
+
+.book-info {
+    flex-grow: 1;
+}
+
+.book-info h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+.book-description {
+    margin-bottom: 30px;
+}
+
+.book-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.book-actions .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 .no-results {
     text-align: center;
     font-size: 18px;
