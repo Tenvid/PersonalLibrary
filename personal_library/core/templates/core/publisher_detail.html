@@ -18,7 +18,30 @@
             <a href="#" onclick="deletePublisher({{ publisher.id }}); return false;" class="btn btn-danger">Delete Publisher</a>
         </div>
     </div>
-    
+
+    <!-- Books published by this Publisher -->
+    <div class="publisher-books">
+        <h2>Books published by {{ publisher.name }}</h2>
+        {% with publisher.book_set.all as books %}
+            {% if books %}
+                <div class="books-grid">
+                    {% for book in books %}
+                        <div class="book-item">
+                            <a href="/books/{{ book.id }}/">
+                                <h3>{{ book.title }}</h3>
+                            </a>
+                            <p><strong>Author:</strong> {{ book.author.name }}</p>
+                            <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+                            <p><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:20 }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-books">No books published by this publisher in the library yet.</p>
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <form id="delete-form" method="post" action="/api/publishers/delete/{{ publisher.id }}/" style="display: none;">
         {% csrf_token %}
     </form>
