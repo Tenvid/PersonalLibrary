@@ -10,7 +10,14 @@
 <body>
     <header>
         {% block header %}
-        <!-- Header content will be added by child templates -->
+          <!-- Navigation Menu -->
+          <div>
+              <ul class="nav-list">
+                  <li><a href="/">All Books</a></li>
+                  <li><a href="/authors/">Authors</a></li>
+                  <li><a href="/publishers/">Publishers</a></li>
+              </ul>
+          </div> 
         {% endblock %}
     </header>
 
