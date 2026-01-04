@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if is_new %}Add New Publisher{% else %}Edit {{ publisher.name }}{% endif %} - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{% if is_new %}Add New Publisher{% else %}Edit Publisher{% endif %}</h1>
+
+    <form method="post" class="publisher-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ publisher.name|default:'' }}" required class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" value="{{ publisher.country|default:'' }}" class="form-control">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{% if is_new %}Create Publisher{% else %}Update Publisher{% endif %}</button>
+            <a href="{% if is_new %}/publishers/{% else %}/publishers/{{ publisher.id }}/{% endif %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add JavaScript for enhanced form functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific publisher edit form functionality here
+    });
+</script>
+{% endblock %}

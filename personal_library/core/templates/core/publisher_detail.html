@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ publisher.name }} - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="publisher-detail">
+        <div class="publisher-header">
+            <div class="publisher-info">
+                <h1>{{ publisher.name }}</h1>
+                <p><strong>Country:</strong> {{ publisher.country|default:"Unknown" }}</p>
+            </div>
+        </div>
+
+        <div class="publisher-actions">
+            <a href="/publishers/" class="btn btn-secondary">Back to All Publishers</a>
+            <a href="/publishers/edit/{{ publisher.id }}/" class="btn btn-primary">Edit Publisher</a>
+            <a href="#" onclick="deletePublisher({{ publisher.id }}); return false;" class="btn btn-danger">Delete Publisher</a>
+        </div>
+    </div>
+    
+    <form id="delete-form" method="post" action="/api/publishers/delete/{{ publisher.id }}/" style="display: none;">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // JavaScript for enhanced functionality
+    function deletePublisher(publisherId) {
+        if (confirm('Are you sure you want to delete this publisher?')) {
+            // Submit the hidden form to delete the publisher
+            document.getElementById('delete-form').submit();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific publisher detail page functionality here
+    });
+</script>
+{% endblock %}
