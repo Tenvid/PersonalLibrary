@@ -27,10 +27,7 @@ def create(request):
     name = request.POST.get("name")
     biography = request.POST.get("biography")
 
-    author = Author.objects.create(
-        name=name,
-        biography=biography
-    )
+    author = Author.objects.create(name=name, biography=biography)
     return redirect("/authors/")
 
 
@@ -54,6 +51,6 @@ def delete(request, author_id):
     try:
         author = Author.objects.get(id=author_id)
         author.delete()
-        return HttpResponse(status=204)
+        return redirect("/authors/")
     except Author.DoesNotExist:
         return HttpResponse(status=404)
