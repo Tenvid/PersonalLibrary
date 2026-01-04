@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Personal Library - Publishers{% endblock %}
+
+{% block header %}
+    <!-- Navigation Menu -->
+    <div>
+        <ul class="nav-list">
+            <li><a href="/">All Books</a></li>
+            <li><a href="/authors/">Authors</a></li>
+            <li><a href="/publishers/">Publishers</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Publishers in Personal Library</h1>
+
+    <!-- Search Form -->
+    <form method="GET" class="search-form">
+        <div class="search-container">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search publishers by name..." class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+
+    <!-- Publishers List -->
+    <div class="publishers-section">
+        <h2>{% if query %}Search Results for "{{ query }}"{% else %}All Publishers{% endif %}</h2>
+
+        {% if publishers %}
+            <div class="publishers-grid">
+                {% for publisher in publishers %}
+                    <div class="publisher-item">
+                        <h3>{{ publisher.name }}</h3>
+                        <p><strong>Country:</strong> {{ publisher.country|default:"Unknown" }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?q={{ query }}&page=1">&laquo; First</a>
+                            <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="no-results">
+                {% if query %}
+                    No publishers found matching your search for "{{ query }}". Try a different search term.
+                {% else %}
+                    No publishers available in the library yet.
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add JavaScript for enhanced search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.querySelector('.search-button').click();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
