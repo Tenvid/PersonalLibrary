@@ -15,6 +15,11 @@
         </div>
     </form>
 
+    <!-- Create New Author Button -->
+    <div class="actions">
+        <a href="/authors/create/" class="btn btn-primary">Add New Author</a>
+    </div>
+
     <!-- Authors List -->
     <div class="authors-section">
         <h2>{% if query %}Search Results for "{{ query }}"{% else %}All Authors{% endif %}</h2>
@@ -23,7 +28,9 @@
             <div class="authors-grid">
                 {% for author in authors %}
                     <div class="author-item">
-                        <h3>{{ author.name }}</h3>
+                        <a href="/authors/{{ author.id }}/">
+                            <h3>{{ author.name }}</h3>
+                        </a>
                         <p><strong>Biography:</strong> {{ author.biography|default:"No biography available"|truncatewords:30 }}</p>
                     </div>
                 {% endfor %}

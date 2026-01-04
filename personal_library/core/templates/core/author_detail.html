@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ author.name }} - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="author-detail">
+        <div class="author-header">
+            <div class="author-info">
+                <h1>{{ author.name }}</h1>
+                <p><strong>Biography:</strong></p>
+                <p>{{ author.biography|default:"No biography available" }}</p>
+            </div>
+        </div>
+
+        <div class="author-actions">
+            <a href="/authors/" class="btn btn-secondary">Back to All Authors</a>
+            <a href="/authors/edit/{{ author.id }}/" class="btn btn-primary">Edit Author</a>
+            <a href="#" onclick="deleteAuthor({{ author.id }}); return false;" class="btn btn-danger">Delete Author</a>
+        </div>
+    </div>
+
+    <form id="delete-form" method="post" action="/api/authors/delete/{{ author.id }}/" style="display: none;">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add JavaScript for enhanced functionality
+    function deleteAuthor(authorId) {
+        if (confirm('Are you sure you want to delete this author?')) {
+            // Submit the hidden form to delete the author
+            document.getElementById('delete-form').submit();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific author detail page functionality here
+    });
+</script>
+{% endblock %}

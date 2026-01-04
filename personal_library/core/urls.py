@@ -17,11 +17,17 @@ urlpatterns = [
     path("api/books/publisher/<int:publisher_id>/", books.read_by_publisher),
     path("api/authors/", authors.read_all),
     path("api/authors/<int:author_id>/", authors.read_one),
+    path("api/authors/create/", authors.create),
+    path("api/authors/update/<int:author_id>/", authors.update),
+    path("api/authors/delete/<int:author_id>/", authors.delete),
     path("api/publishers/", publishers.read_all),
     # HTML template endpoints
     path("books/", book_html_views.index, name="books"),
     path("books/<int:book_id>/", book_html_views.book_detail, name="book_detail"),
     path("books/edit/<int:book_id>/", book_html_views.book_edit, name="book_edit"),
     path("authors/", author_views.authors_html, name="authors"),
+    path("authors/<int:author_id>/", author_views.author_detail, name="author_detail"),
+    path("authors/edit/<int:author_id>/", author_views.author_edit, name="author_edit"),
+    path("authors/create/", author_views.author_edit, {'author_id': None}, name="author_create"),
     path("publishers/", publisher_views.publishers_html, name="publishers"),
 ]
