@@ -20,6 +20,29 @@
         </div>
     </div>
 
+    <!-- Books by this Author -->
+    <div class="author-books">
+        <h2>Books by {{ author.name }}</h2>
+        {% with author.book_set.all as books %}
+            {% if books %}
+                <div class="books-grid">
+                    {% for book in books %}
+                        <div class="book-item">
+                            <a href="/books/{{ book.id }}/">
+                                <h3>{{ book.title }}</h3>
+                            </a>
+                            <p><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
+                            <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+                            <p><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:20 }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-books">No books by this author in the library yet.</p>
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <form id="delete-form" method="post" action="/api/authors/delete/{{ author.id }}/" style="display: none;">
         {% csrf_token %}
     </form>
