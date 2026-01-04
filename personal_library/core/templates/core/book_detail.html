@@ -17,9 +17,9 @@
             </div>
             <div class="book-info">
                 <h1>{{ book.title }}</h1>
-                <p><strong>Author:</strong> <a href="/books/author/{{ book.author.id }}/">{{ book.author.name }}</a></p>
+                <p><strong>Author:</strong> <a href="/authors/{{ book.author.id }}/">{{ book.author.name }}</a></p>
                 {% if book.publisher %}
-                    <p><strong>Publisher:</strong> <a href="/books/publisher/{{ book.publisher.id }}/">{{ book.publisher.name }}</a></p>
+                    <p><strong>Publisher:</strong> <a href="/publishers/{{ book.publisher.id }}/">{{ book.publisher.name }}</a></p>
                 {% else %}
                     <p><strong>Publisher:</strong> N/A</p>
                 {% endif %}
