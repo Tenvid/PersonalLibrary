@@ -4,62 +4,71 @@
 
 {% block content %}
 <div class="container">
-    <h1>{% if is_new %}Add New Book{% else %}Edit Book{% endif %}</h1>
-
-    <form method="post" enctype="multipart/form-data" class="book-form">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="{{ book.title|default:'' }}" required class="form-control">
-        </div>
-
-        <div class="form-group">
-            <label for="author">Author:</label>
-            <select id="author" name="author" class="form-control" required>
-                <option value="">Select an author</option>
-                {% for author in authors %}
-                    <option value="{{ author.id }}" {% if book and author.id == book.author.id %}selected{% endif %}>{{ author.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="publisher">Publisher:</label>
-            <select id="publisher" name="publisher" class="form-control">
-                <option value="">Select a publisher</option>
-                {% for publisher in publishers %}
-                    <option value="{{ publisher.id }}" {% if book and publisher.id == book.publisher.id %}selected{% endif %}>{{ publisher.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="publication_date">Publication Date:</label>
-            <input type="date" id="publication_date" name="publication_date" value="{{ book.publication_date|date:'Y-m-d'|default:'' }}" required class="form-control">
-        </div>
-
-        <div class="form-group">
-            <label for="synopsis">Synopsis:</label>
-            <textarea id="synopsis" name="synopsis" rows="5" class="form-control" required>{{ book.synopsis|default:'' }}</textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="cover_image">Cover Image:</label>
-            <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*">
-            {% if book and book.cover_image %}
-                <div class="current-image">
-                    <p>Current image:</p>
-                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover-preview">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="h3 mb-0">{% if is_new %}Add New Book{% else %}Edit Book{% endif %}</h1>
                 </div>
-            {% endif %}
-        </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">{% if is_new %}Create Book{% else %}Update Book{% endif %}</button>
-            <a href="{% if is_new %}/{% else %}/books/{{ book.id }}/{% endif %}" class="btn btn-secondary">Cancel</a>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title:</label>
+                            <input type="text" id="title" name="title" value="{{ book.title|default:'' }}" required class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="author" class="form-label">Author:</label>
+                            <select id="author" name="author" class="form-select" required>
+                                <option value="">Select an author</option>
+                                {% for author in authors %}
+                                    <option value="{{ author.id }}" {% if book and author.id == book.author.id %}selected{% endif %}>{{ author.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Publisher:</label>
+                            <select id="publisher" name="publisher" class="form-select">
+                                <option value="">Select a publisher</option>
+                                {% for publisher in publishers %}
+                                    <option value="{{ publisher.id }}" {% if book and publisher.id == book.publisher.id %}selected{% endif %}>{{ publisher.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="publication_date" class="form-label">Publication Date:</label>
+                            <input type="date" id="publication_date" name="publication_date" value="{{ book.publication_date|date:'Y-m-d'|default:'' }}" required class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="synopsis" class="form-label">Synopsis:</label>
+                            <textarea id="synopsis" name="synopsis" rows="5" class="form-control" required>{{ book.synopsis|default:'' }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cover_image" class="form-label">Cover Image:</label>
+                            <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*">
+                            {% if book and book.cover_image %}
+                                <div class="mt-2">
+                                    <p class="mb-1">Current image:</p>
+                                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-thumbnail" style="max-width: 200px;">
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% if is_new %}/{% else %}/books/{{ book.id }}/{% endif %}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">{% if is_new %}Create Book{% else %}Update Book{% endif %}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}
 

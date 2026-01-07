@@ -4,41 +4,48 @@
 
 {% block content %}
 <div class="container">
-    <div class="author-detail">
-        <div class="author-header">
-            <div class="author-info">
-                <h1>{{ author.name }}</h1>
-                <p><strong>Biography:</strong></p>
-                <p>{{ author.biography|default:"No biography available" }}</p>
-            </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h1 class="card-title">{{ author.name }}</h1>
+            <p class="card-text"><strong>Biography:</strong></p>
+            <p class="card-text">{{ author.biography|default:"No biography available" }}</p>
         </div>
+    </div>
 
-        <div class="author-actions">
-            <a href="/authors/" class="btn btn-secondary">Back to All Authors</a>
-            <a href="/authors/edit/{{ author.id }}/" class="btn btn-primary">Edit Author</a>
-            <a href="#" onclick="deleteAuthor({{ author.id }}); return false;" class="btn btn-danger">Delete Author</a>
-        </div>
+    <div class="author-actions mb-4">
+        <a href="/authors/" class="btn btn-secondary me-2">Back to All Authors</a>
+        <a href="/authors/edit/{{ author.id }}/" class="btn btn-primary me-2">Edit Author</a>
+        <a href="#" onclick="deleteAuthor({{ author.id }}); return false;" class="btn btn-danger">Delete Author</a>
     </div>
 
     <!-- Books by this Author -->
     <div class="author-books">
-        <h2>Books by {{ author.name }}</h2>
+        <h2 class="mb-4">Books by {{ author.name }}</h2>
         {% with author.book_set.all as books %}
             {% if books %}
-                <div class="books-grid">
+                <div class="row">
                     {% for book in books %}
-                        <div class="book-item">
-                            <a href="/books/{{ book.id }}/">
-                                <h3>{{ book.title }}</h3>
-                            </a>
-                            <p><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
-                            <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
-                            <p><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:20 }}</p>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="/books/{{ book.id }}/" class="text-decoration-none">{{ book.title }}</a>
+                                    </h5>
+                                    <p class="card-text"><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
+                                    <p class="card-text"><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+                                    <p class="card-text"><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:20 }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="/books/{{ book.id }}/" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="no-books">No books by this author in the library yet.</p>
+                <div class="alert alert-info">
+                    <p class="mb-0">No books by this author in the library yet.</p>
+                </div>
             {% endif %}
         {% endwith %}
     </div>
