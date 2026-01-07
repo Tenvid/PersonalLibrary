@@ -15,6 +15,7 @@ Esta aplicación permite gestionar una colección personal de libros, incluyendo
 - Vista detallada de cada registro
 - API REST para operaciones de datos
 - Panel de administración de Django Jazzmin
+- Base de datos SQLite con ejemplos pre-cargados
 
 ![Captura de pantalla de la aplicación](./doc/img/homepage.png)
 
@@ -31,7 +32,7 @@ Esta aplicación permite gestionar una colección personal de libros, incluyendo
    cd PersonalLibrary
    ```
 
-2. Asegúrate de tener `uv` instalado:
+2. Asegúrate de tener [uv](https://docs.astral.sh/uv/getting-started/installation/) instalado:
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
