@@ -1,6 +1,25 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from core.models import Publisher
+from django.views.generic.list import ListView
+
+
+class PublishersListView(ListView):
+    model = Publisher
+    template_name = "core/publishers.html"
+    context_object_name = "publishers"
+    paginate_by = 8
+
+    def get_queryset(self):
+        query = self.request.GET.get("q", "")
+        if query:
+            return Publisher.objects.filter(name__icontains=query)
+        return Publisher.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "")
+        return context
 
 
 def publishers_html(request):
@@ -63,4 +82,3 @@ def publisher_edit(request, publisher_id=None):
     # For GET request, show the form
     context = {"publisher": publisher, "is_new": is_new}
     return render(request, "core/publisher_edit.html", context)
-

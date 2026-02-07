@@ -29,13 +29,39 @@ urlpatterns = [
     path("books/", book_html_views.index, name="books"),
     path("books/<int:book_id>/", book_html_views.book_detail, name="book_detail"),
     path("books/edit/<int:book_id>/", book_html_views.book_edit, name="book_edit"),
-    path("books/create/", book_html_views.book_edit, {'book_id': None}, name="book_create"),
-    path("authors/", author_views.authors_html, name="authors"),
+    path(
+        "books/create/",
+        book_html_views.book_edit,
+        {"book_id": None},
+        name="book_create",
+    ),
+    # path("authors/", author_views.authors_html, name="authors"),
+    path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
     path("authors/<int:author_id>/", author_views.author_detail, name="author_detail"),
     path("authors/edit/<int:author_id>/", author_views.author_edit, name="author_edit"),
-    path("authors/create/", author_views.author_edit, {'author_id': None}, name="author_create"),
-    path("publishers/", publisher_views.publishers_html, name="publishers"),
-    path("publishers/<int:publisher_id>/", publisher_views.publisher_detail, name="publisher_detail"),
-    path("publishers/edit/<int:publisher_id>/", publisher_views.publisher_edit, name="publisher_edit"),
-    path("publishers/create/", publisher_views.publisher_edit, {'publisher_id': None}, name="publisher_create"),
+    path(
+        "authors/create/",
+        author_views.author_edit,
+        name="author_create",
+    ),
+    # path("publishers/", publisher_views.publishers_html, name="publishers"),
+    path(
+        "publishers/", publisher_views.PublishersListView.as_view(), name="publishers"
+    ),
+    path(
+        "publishers/<int:publisher_id>/",
+        publisher_views.publisher_detail,
+        name="publisher_detail",
+    ),
+    path(
+        "publishers/edit/<int:publisher_id>/",
+        publisher_views.publisher_edit,
+        name="publisher_edit",
+    ),
+    path(
+        "publishers/create/",
+        publisher_views.publisher_edit,
+        {"publisher_id": None},
+        name="publisher_create",
+    ),
 ]

@@ -1,31 +1,24 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
 from core.models import Author
+from django.views.generic.list import ListView
 
 
-def authors_html(request):
-    # Get the search query from the request
-    query = request.GET.get("q", "")
+class AuthorsListView(ListView):
+    model = Author
+    template_name = "core/authors.html"
+    context_object_name = "authors"
+    paginate_by = 8
 
-    # Get all authors or filter based on the search query
-    if query:
-        authors_list = Author.objects.filter(name__icontains=query)
-    else:
-        authors_list = Author.objects.all()
+    def get_queryset(self):
+        query = self.request.GET.get("q", "")
+        if query:
+            return Author.objects.filter(name__icontains=query)
+        return Author.objects.all()
 
-    # Paginate the results (8 authors per page)
-    paginator = Paginator(authors_list, 8)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "authors": page_obj,
-        "query": query,
-        "is_paginated": page_obj.has_other_pages(),
-        "page_obj": page_obj,
-    }
-
-    return render(request, "core/authors.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "")
+        return context
 
 
 def author_detail(request, author_id):
@@ -63,4 +56,3 @@ def author_edit(request, author_id=None):
     # For GET request, show the form
     context = {"author": author, "is_new": is_new}
     return render(request, "core/author_edit.html", context)
-

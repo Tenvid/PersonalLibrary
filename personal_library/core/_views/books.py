@@ -1,6 +1,27 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from core.models import Book, Author, Publisher
+from django.views.generic.list import ListView
+
+
+class IndexView(ListView):
+    model = Book
+    template_name = "core/index.html"
+    context_object_name = "books"
+    paginate_by = 9
+
+    def get_queryset(self):
+        query = self.request.GET.get("q", "")
+        if query:
+            return Book.objects.filter(title__icontains=query).select_related(
+                "author", "publisher"
+            )
+        return Book.objects.all().select_related("author", "publisher")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "")
+        return context
 
 
 def index(request):
@@ -32,10 +53,8 @@ def index(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    context = {
-        'book': book
-    }
-    return render(request, 'core/book_detail.html', context)
+    context = {"book": book}
+    return render(request, "core/book_detail.html", context)
 
 
 def book_edit(request, book_id=None):
@@ -46,13 +65,13 @@ def book_edit(request, book_id=None):
         book = None
         is_new = True
 
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        synopsis = request.POST.get('synopsis')
-        publication_date = request.POST.get('publication_date')
+    if request.method == "POST":
+        title = request.POST.get("title")
+        synopsis = request.POST.get("synopsis")
+        publication_date = request.POST.get("publication_date")
 
         # Handle author
-        author_id = request.POST.get('author')
+        author_id = request.POST.get("author")
         author = None
         if author_id:
             try:
@@ -61,7 +80,7 @@ def book_edit(request, book_id=None):
                 author = None
 
         # Handle publisher
-        publisher_id = request.POST.get('publisher')
+        publisher_id = request.POST.get("publisher")
         publisher = None
         if publisher_id:
             try:
@@ -78,8 +97,8 @@ def book_edit(request, book_id=None):
             book.publisher = publisher
 
             # Handle cover image
-            if 'cover_image' in request.FILES:
-                book.cover_image = request.FILES['cover_image']
+            if "cover_image" in request.FILES:
+                book.cover_image = request.FILES["cover_image"]
         else:
             # Create new book
             book = Book.objects.create(
@@ -87,24 +106,26 @@ def book_edit(request, book_id=None):
                 synopsis=synopsis,
                 publication_date=publication_date,
                 author=author,
-                publisher=publisher
+                publisher=publisher,
             )
 
             # Handle cover image for new book
-            if 'cover_image' in request.FILES:
-                book.cover_image = request.FILES['cover_image']
+            if "cover_image" in request.FILES:
+                book.cover_image = request.FILES["cover_image"]
 
         book.save()
-        return redirect('book_detail', book_id=book.id)  # Redirect to the book detail page
+        return redirect(
+            "book_detail", book_id=book.id
+        )  # Redirect to the book detail page
 
     # For GET request, show the form
     authors = Author.objects.all()
     publishers = Publisher.objects.all()
 
     context = {
-        'book': book,
-        'authors': authors,
-        'publishers': publishers,
-        'is_new': is_new
+        "book": book,
+        "authors": authors,
+        "publishers": publishers,
+        "is_new": is_new,
     }
-    return render(request, 'core/book_edit.html', context)
+    return render(request, "core/book_edit.html", context)
