@@ -59,9 +59,14 @@ urlpatterns = [
         author_views.AuthorEditView.as_view(),
         name="author_edit",
     ),
+    # path(
+    #     "authors/create/",
+    #     author_views.author_edit,
+    #     name="author_create",
+    # ),
     path(
         "authors/create/",
-        author_views.author_edit,
+        author_views.AuthorCreateView.as_view(),
         name="author_create",
     ),
     # path("publishers/", publisher_views.publishers_html, name="publishers"),

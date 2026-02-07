@@ -34,15 +34,9 @@ class AuthorDetailView(DetailView):
         return get_object_or_404(Author, id=author_id)
 
 
-def author_detail(request, author_id):
-    author = get_object_or_404(Author, id=author_id)
-    context = {"author": author}
-    return render(request, "core/author_detail.html", context)
-
-
 class AuthorEditView(UpdateView):
     model = Author
-    template_name = "core/author_edit.html"
+    template_jame = "core/author_edit.html"
     fields = ["name", "biography"]
     pk_url_kwarg = "author_id"
 
@@ -50,32 +44,10 @@ class AuthorEditView(UpdateView):
         return reverse("author_detail", kwargs={"author_id": self.object.id})
 
 
-def author_edit(request, author_id=None):
-    if author_id:
-        author = get_object_or_404(Author, id=author_id)
-        is_new = False
-    else:
-        author = None
-        is_new = True
+class AuthorCreateView(CreateView):
+    model = Author
+    template_name = "core/author_edit.html"
+    fields = ["name", "biography"]
 
-    if request.method == "POST":
-        # Update or create author with POST data
-        name = request.POST.get("name")
-        biography = request.POST.get("biography")
-
-        if author:
-            # Update existing author
-            author.name = name
-            author.biography = biography
-            author.save()
-        else:
-            # Create new author
-            author = Author.objects.create(name=name, biography=biography)
-
-        return redirect(
-            "author_detail", author_id=author.id
-        )  # Redirect to the author detail page
-
-    # For GET request, show the form
-    context = {"author": author, "is_new": is_new}
-    return render(request, "core/author_edit.html", context)
+    def get_success_url(self):
+        return reverse("author_detail", kwargs={"author_id": self.object.id})
