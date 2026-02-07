@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.views.generic.detail import DetailView
 from core.models import Book, Author, Publisher
 from django.views.generic.list import ListView
 
@@ -22,6 +23,16 @@ class IndexView(ListView):
         context = super().get_context_data(**kwargs)
         context["query"] = self.request.GET.get("q", "")
         return context
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = "core/book_detail.html"
+    context_object_name = "book"
+
+    def get_object(self):
+        book_id = self.kwargs.get("book_id")
+        return get_object_or_404(Book, id=book_id)
 
 
 def index(request):

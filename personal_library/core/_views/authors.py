@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Author
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 
 class AuthorsListView(ListView):
@@ -19,6 +20,16 @@ class AuthorsListView(ListView):
         context = super().get_context_data(**kwargs)
         context["query"] = self.request.GET.get("q", "")
         return context
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = "core/author_detail.html"
+    context_object_name = "author"
+
+    def get_object(self):
+        author_id = self.kwargs.get("author_id")
+        return get_object_or_404(Author, id=author_id)
 
 
 def author_detail(request, author_id):

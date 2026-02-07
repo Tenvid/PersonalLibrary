@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.views.generic.detail import DetailView
 from core.models import Publisher
 from django.views.generic.list import ListView
 
@@ -45,6 +46,16 @@ def publishers_html(request):
     }
 
     return render(request, "core/publishers.html", context)
+
+
+class PublisherDetailView(DetailView):
+    model = Publisher
+    template_name = "core/publisher_detail.html"
+    context_object_name = "publisher"
+
+    def get_object(self) -> Publisher:
+        publisher_id = self.kwargs.get("publisher_id")
+        return get_object_or_404(Publisher, id=publisher_id)
 
 
 def publisher_detail(request, publisher_id):

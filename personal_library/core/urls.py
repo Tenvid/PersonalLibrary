@@ -27,7 +27,12 @@ urlpatterns = [
     path("api/publishers/delete/<int:publisher_id>/", publishers.delete),
     # HTML template endpoints
     path("books/", book_html_views.index, name="books"),
-    path("books/<int:book_id>/", book_html_views.book_detail, name="book_detail"),
+    # path("books/<int:book_id>/", book_html_views.book_detail, name="book_detail"),
+    path(
+        "books/<int:book_id>/",
+        book_html_views.BookDetailView.as_view(),
+        name="book_detail",
+    ),
     path("books/edit/<int:book_id>/", book_html_views.book_edit, name="book_edit"),
     path(
         "books/create/",
@@ -37,7 +42,12 @@ urlpatterns = [
     ),
     # path("authors/", author_views.authors_html, name="authors"),
     path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
-    path("authors/<int:author_id>/", author_views.author_detail, name="author_detail"),
+    # path("authors/<int:author_id>/", author_views.author_detail, name="author_detail"),
+    path(
+        "authors/<int:author_id>/",
+        author_views.AuthorDetailView.as_view(),
+        name="author_detail",
+    ),
     path("authors/edit/<int:author_id>/", author_views.author_edit, name="author_edit"),
     path(
         "authors/create/",
@@ -50,9 +60,14 @@ urlpatterns = [
     ),
     path(
         "publishers/<int:publisher_id>/",
-        publisher_views.publisher_detail,
+        publisher_views.PublisherDetailView.as_view(),
         name="publisher_detail",
     ),
+    # path(
+    #     "publishers/<int:publisher_id>/",
+    #     publisher_views.publisher_detail,
+    #     name="publisher_detail",
+    # ),
     path(
         "publishers/edit/<int:publisher_id>/",
         publisher_views.publisher_edit,
