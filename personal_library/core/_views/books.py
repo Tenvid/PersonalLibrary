@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.urls import reverse
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from core.models import Book, Author, Publisher
 from django.views.generic.list import ListView
 
@@ -66,6 +68,29 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     context = {"book": book}
     return render(request, "core/book_detail.html", context)
+
+
+class BookEditView(UpdateView):
+    model = Book
+    template_name = "core/book_edit.html"
+    fields = [
+        "title",
+        "synopsis",
+        "publication_date",
+        "author",
+        "publisher",
+        "cover_image",
+    ]
+    pk_url_kwarg = "book_id"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["authors"] = Author.objects.all()
+        context["publishers"] = Publisher.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse("book_detail", kwargs={"book_id": self.object.id})
 
 
 def book_edit(request, book_id=None):

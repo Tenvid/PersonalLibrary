@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.urls import reverse
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from core.models import Publisher
 from django.views.generic.list import ListView
 
@@ -62,6 +64,16 @@ def publisher_detail(request, publisher_id):
     publisher = get_object_or_404(Publisher, id=publisher_id)
     context = {"publisher": publisher}
     return render(request, "core/publisher_detail.html", context)
+
+
+class PublisherEditView(UpdateView):
+    model = Publisher
+    template_name = "core/publisher_edit.html"
+    fields = ["name", "country"]
+    pk_url_kwarg = "publisher_id"
+
+    def get_success_url(self):
+        return reverse("publisher_detail", kwargs={"publisher_id": self.object.id})
 
 
 def publisher_edit(request, publisher_id=None):

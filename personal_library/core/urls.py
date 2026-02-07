@@ -33,7 +33,12 @@ urlpatterns = [
         book_html_views.BookDetailView.as_view(),
         name="book_detail",
     ),
-    path("books/edit/<int:book_id>/", book_html_views.book_edit, name="book_edit"),
+    # path("books/edit/<int:book_id>/", book_html_views.book_edit, name="book_edit"),
+    path(
+        "books/edit/<int:book_id>/",
+        book_html_views.BookEditView.as_view(),
+        name="book_edit",
+    ),
     path(
         "books/create/",
         book_html_views.book_edit,
@@ -48,7 +53,12 @@ urlpatterns = [
         author_views.AuthorDetailView.as_view(),
         name="author_detail",
     ),
-    path("authors/edit/<int:author_id>/", author_views.author_edit, name="author_edit"),
+    # path("authors/edit/<int:author_id>/", author_views.author_edit, name="author_edit"),
+    path(
+        "authors/edit/<int:author_id>/",
+        author_views.AuthorEditView.as_view(),
+        name="author_edit",
+    ),
     path(
         "authors/create/",
         author_views.author_edit,
@@ -68,9 +78,14 @@ urlpatterns = [
     #     publisher_views.publisher_detail,
     #     name="publisher_detail",
     # ),
+    # path(
+    #     "publishers/edit/<int:publisher_id>/",
+    #     publisher_views.publisher_edit,
+    #     name="publisher_edit",
+    # ),
     path(
         "publishers/edit/<int:publisher_id>/",
-        publisher_views.publisher_edit,
+        publisher_views.PublisherEditView.as_view(),
         name="publisher_edit",
     ),
     path(

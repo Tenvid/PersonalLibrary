@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Author
+from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView
 
 
 class AuthorsListView(ListView):
@@ -36,6 +38,16 @@ def author_detail(request, author_id):
     author = get_object_or_404(Author, id=author_id)
     context = {"author": author}
     return render(request, "core/author_detail.html", context)
+
+
+class AuthorEditView(UpdateView):
+    model = Author
+    template_name = "core/author_edit.html"
+    fields = ["name", "biography"]
+    pk_url_kwarg = "author_id"
+
+    def get_success_url(self):
+        return reverse("author_detail", kwargs={"author_id": self.object.id})
 
 
 def author_edit(request, author_id=None):
