@@ -6,7 +6,7 @@ from core._views import publishers as publisher_views
 from core._views import books as book_html_views
 
 urlpatterns = [
-    path("", book_html_views.index, name="index"),
+    path("", book_html_views.IndexView.as_view(), name="index"),
     # API endpoints (return JSON)
     path("api/books/", books.read_all),
     path("api/books/create/", books.create),
@@ -26,7 +26,7 @@ urlpatterns = [
     path("api/publishers/update/<int:publisher_id>/", publishers.update),
     path("api/publishers/delete/<int:publisher_id>/", publishers.delete),
     # HTML template endpoints
-    path("books/", book_html_views.index, name="books"),
+    path("books/", book_html_views.IndexView.as_view(), name="books"),
     # path("books/<int:book_id>/", book_html_views.book_detail, name="book_detail"),
     path(
         "books/<int:book_id>/",
@@ -41,10 +41,15 @@ urlpatterns = [
     ),
     path(
         "books/create/",
-        book_html_views.book_edit,
-        {"book_id": None},
+        book_html_views.BookCreateView.as_view(),
         name="book_create",
     ),
+    # path(
+    #     "books/create/",
+    #     book_html_views.book_edit,
+    #     {"book_id": None},
+    #     name="book_create",
+    # ),
     # path("authors/", author_views.authors_html, name="authors"),
     path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
     # path("authors/<int:author_id>/", author_views.author_detail, name="author_detail"),
@@ -95,8 +100,7 @@ urlpatterns = [
     ),
     path(
         "publishers/create/",
-        publisher_views.publisher_edit,
-        {"publisher_id": None},
+        publisher_views.PublisherCreateView.as_view(),
         name="publisher_create",
     ),
 ]
