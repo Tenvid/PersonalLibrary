@@ -1,8 +1,9 @@
-from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.shortcuts import render
+
+from core._views import books as book_views  # noqa
+from core.api import authors, books, publishers  # noqa
 from core.models import Book
-from core.api import books, authors, publishers
-from core._views import books as book_views
 
 
 def index(request):

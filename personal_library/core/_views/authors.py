@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Author
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
 
 class AuthorsListView(ListView):

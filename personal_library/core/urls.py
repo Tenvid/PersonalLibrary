@@ -1,5 +1,4 @@
 from django.urls import path
-from . import views
 from .views import books, authors, publishers
 from core._views import authors as author_views
 from core._views import publishers as publisher_views

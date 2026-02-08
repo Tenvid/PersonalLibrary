@@ -1,5 +1,6 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
+
 from core.models import Publisher
 
 

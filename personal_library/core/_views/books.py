@@ -1,8 +1,8 @@
+from core.models import Author, Book, Publisher
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from core.models import Book, Author, Publisher
 from django.views.generic.list import ListView
 
 
