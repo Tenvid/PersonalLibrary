@@ -13,8 +13,8 @@
 
     <div class="publisher-actions mb-4">
         <a href="/publishers/" class="btn btn-secondary me-2">Back to All Publishers</a>
-        <a href="/publishers/edit/{{ publisher.id }}/" class="btn btn-primary me-2">Edit Publisher</a>
-        <a href="#" onclick="deletePublisher({{ publisher.id }}); return false;" class="btn btn-danger">Delete Publisher</a>
+        <a href="/publishers/edit/{{ publisher.slug }}/" class="btn btn-primary me-2">Edit Publisher</a>
+        <a href="#" onclick="deletePublisher({{ publisher.slug }}); return false;" class="btn btn-danger">Delete Publisher</a>
     </div>
 
     <!-- Books published by this Publisher -->

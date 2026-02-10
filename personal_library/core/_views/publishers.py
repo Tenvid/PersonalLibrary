@@ -30,24 +30,23 @@ class PublisherDetailView(DetailView):
     context_object_name = "publisher"
 
     def get_object(self) -> Publisher:
-        publisher_id = self.kwargs.get("publisher_id")
-        return get_object_or_404(Publisher, id=publisher_id)
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Publisher, slug=slug)
 
 
 class PublisherEditView(UpdateView):
     model = Publisher
     template_name = "core/publisher_edit.html"
-    fields = ["name", "country"]
-    pk_url_kwarg = "publisher_id"
+    fields = ["name", "country", "slug"]
 
     def get_success_url(self):
-        return reverse("publisher_detail", kwargs={"publisher_id": self.object.id})
+        return reverse("publisher_detail", kwargs={"slug": self.object.slug})
 
 
 class PublisherCreateView(CreateView):
     model = Publisher
     template_name = "core/publisher_edit.html"
-    fields = ["name", "country"]
+    fields = ["name", "country", "slug"]
 
     def get_success_url(self):
-        return reverse("publisher_detail", kwargs={"publisher_id": self.object.id})
+        return reverse("publisher_detail", kwargs={"slug": self.object.slug})

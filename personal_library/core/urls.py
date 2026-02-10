@@ -61,18 +61,18 @@ urlpatterns = [
         "publishers/", publisher_views.PublishersListView.as_view(), name="publishers"
     ),
     path(
-        "publishers/<int:publisher_id>/",
+        "publishers/create/",
+        publisher_views.PublisherCreateView.as_view(),
+        name="publisher_create",
+    ),
+    path(
+        "publishers/<slug:slug>/",
         publisher_views.PublisherDetailView.as_view(),
         name="publisher_detail",
     ),
     path(
-        "publishers/edit/<int:publisher_id>/",
+        "publishers/edit/<slug:slug>/",
         publisher_views.PublisherEditView.as_view(),
         name="publisher_edit",
-    ),
-    path(
-        "publishers/create/",
-        publisher_views.PublisherCreateView.as_view(),
-        name="publisher_create",
     ),
 ]

@@ -34,10 +34,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="/publishers/{{ publisher.id }}/" class="text-decoration-none">{{ publisher.name }}</a>
+                                    <a href="/publishers/{{ publisher.slug }}/" class="text-decoration-none">{{ publisher.name }}</a>
                                 </h5>
                                 <p class="card-text"><strong>Country:</strong> {{ publisher.country|default:"Unknown" }}</p>
-                                <a href="/publishers/{{ publisher.id }}/" class="btn btn-primary">View Details</a>
+                                <a href="/publishers/{{ publisher.slug }}/" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     </div>
