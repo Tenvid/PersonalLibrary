@@ -30,24 +30,28 @@ class AuthorDetailView(DetailView):
     context_object_name = "author"
 
     def get_object(self):
-        author_id = self.kwargs.get("author_id")
-        return get_object_or_404(Author, id=author_id)
+        author_slug = self.kwargs.get("slug")
+        return get_object_or_404(Author, slug=author_slug)
 
 
 class AuthorEditView(UpdateView):
     model = Author
-    template_jame = "core/author_edit.html"
+    template_name = "core/author_edit.html"
     fields = ["name", "biography"]
-    pk_url_kwarg = "author_id"
+    pk_url_kwarg = "slug"
+
+    def get_object(self):
+        author_slug = self.kwargs.get("slug")
+        return get_object_or_404(Author, slug=author_slug)
 
     def get_success_url(self):
-        return reverse("author_detail", kwargs={"author_id": self.object.id})
+        return reverse("author_detail", kwargs={"slug": self.object.slug})
 
 
 class AuthorCreateView(CreateView):
     model = Author
     template_name = "core/author_edit.html"
-    fields = ["name", "biography"]
+    fields = ["name", "biography", "slug"]
 
     def get_success_url(self):
-        return reverse("author_detail", kwargs={"author_id": self.object.id})
+        return reverse("author_detail", kwargs={"slug": self.object.slug})

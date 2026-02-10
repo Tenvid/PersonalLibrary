@@ -43,19 +43,19 @@ urlpatterns = [
     ),
     path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
     path(
-        "authors/<int:author_id>/",
+        "authors/create/",
+        author_views.AuthorCreateView.as_view(),
+        name="author_create",
+    ),
+    path(
+        "authors/<slug:slug>/",
         author_views.AuthorDetailView.as_view(),
         name="author_detail",
     ),
     path(
-        "authors/edit/<int:author_id>/",
+        "authors/edit/<slug:slug>/",
         author_views.AuthorEditView.as_view(),
         name="author_edit",
-    ),
-    path(
-        "authors/create/",
-        author_views.AuthorCreateView.as_view(),
-        name="author_create",
     ),
     path(
         "publishers/", publisher_views.PublishersListView.as_view(), name="publishers"

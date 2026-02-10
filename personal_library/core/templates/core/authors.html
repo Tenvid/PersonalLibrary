@@ -35,10 +35,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="/authors/{{ author.id }}/" class="text-decoration-none">{{ author.name }}</a>
+                                    <a href="/authors/{{ author.slug }}/" class="text-decoration-none">{{ author.name }}</a>
                                 </h5>
                                 <p class="card-text"><strong>Biography:</strong> {{ author.biography|default:"No biography available"|truncatewords:30 }}</p>
-                                <a href="/authors/{{ author.id }}/" class="btn btn-primary">View Details</a>
+                                <a href="/authors/{{ author.slug }}/" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     </div>
