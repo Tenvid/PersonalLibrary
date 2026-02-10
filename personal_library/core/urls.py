@@ -27,19 +27,19 @@ urlpatterns = [
     # HTML template endpoints
     path("books/", book_html_views.IndexView.as_view(), name="books"),
     path(
-        "books/<int:book_id>/",
+        "books/create/",
+        book_html_views.BookCreateView.as_view(),
+        name="book_create",
+    ),
+    path(
+        "books/<slug:slug>/",
         book_html_views.BookDetailView.as_view(),
         name="book_detail",
     ),
     path(
-        "books/edit/<int:book_id>/",
+        "books/edit/<slug:slug>/",
         book_html_views.BookEditView.as_view(),
         name="book_edit",
-    ),
-    path(
-        "books/create/",
-        book_html_views.BookCreateView.as_view(),
-        name="book_create",
     ),
     path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
     path(

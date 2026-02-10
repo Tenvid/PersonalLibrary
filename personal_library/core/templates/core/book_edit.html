@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}{% if is_new %}Add New Book{% else %}Edit {{ book.title }}{% endif %} - Personal Library{% endblock %}
+{% block title %}{% if not book %}Add New Book{% else %}Edit {{ book.title }}{% endif %} - Personal Library{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="h3 mb-0">{% if is_new %}Add New Book{% else %}Edit Book{% endif %}</h1>
+                    <h1 class="h3 mb-0">{% if not book %}Add New Book{% else %}Edit Book{% endif %}</h1>
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
@@ -48,6 +48,12 @@
                             <label for="synopsis" class="form-label">Synopsis:</label>
                             <textarea id="synopsis" name="synopsis" rows="5" class="form-control" required>{{ book.synopsis|default:'' }}</textarea>
                         </div>
+          
+                        <div class="mb-3">
+                            <label for="slug" class="form-label">Slug (URL-friendly identifier):</label>
+                            <input type="text" id="slug" name="slug" value="{{ book.slug|default:'' }}" required class="form-control">
+                            <div class="form-text">The slug will be used in the URL for this book. It should be unique and contain only letters, numbers, hyphens, or underscores.</div>
+                        </div>
 
                         <div class="mb-3">
                             <label for="cover_image" class="form-label">Cover Image:</label>
@@ -61,7 +67,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% if is_new %}/{% else %}/books/{{ book.id }}/{% endif %}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <a href="{% if not book %}/{% else %}/books/{{ book.slug }}/{% endif %}" class="btn btn-secondary me-md-2">Cancel</a>
                             <button type="submit" class="btn btn-primary">{% if not book %}Create Book{% else %}Update Book{% endif %}</button>
                         </div>
                     </form>

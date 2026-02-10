@@ -32,8 +32,8 @@ class BookDetailView(DetailView):
     context_object_name = "book"
 
     def get_object(self):
-        book_id = self.kwargs.get("book_id")
-        return get_object_or_404(Book, id=book_id)
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Book, slug=slug)
 
 
 class BookEditView(UpdateView):
@@ -46,8 +46,9 @@ class BookEditView(UpdateView):
         "author",
         "publisher",
         "cover_image",
+        "slug",
     ]
-    pk_url_kwarg = "book_id"
+    # pk_url_kwarg = "book_id"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,7 +57,7 @@ class BookEditView(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse("book_detail", kwargs={"book_id": self.object.id})
+        return reverse("book_detail", kwargs={"slug": self.object.slug})
 
 
 class BookCreateView(CreateView):
@@ -69,6 +70,7 @@ class BookCreateView(CreateView):
         "author",
         "publisher",
         "cover_image",
+        "slug",
     ]
 
     def get_context_data(self, **kwargs):
@@ -78,4 +80,4 @@ class BookCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse("book_detail", kwargs={"book_id": self.object.id})
+        return reverse("book_detail", kwargs={"slug": self.object.slug})
