@@ -37,7 +37,7 @@ class AuthorDetailView(DetailView):
 class AuthorEditView(UpdateView):
     model = Author
     template_name = "core/author_edit.html"
-    fields = ["name", "biography"]
+    fields = ["name", "biography", "slug"]
     pk_url_kwarg = "slug"
 
     def get_object(self):
