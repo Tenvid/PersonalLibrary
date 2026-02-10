@@ -40,6 +40,9 @@ class Book(models.Model):
     synopsis = models.TextField()
     publication_date = models.DateField()
     cover_image = models.ImageField(upload_to="book_covers/", blank=True, null=True)
+    slug = models.SlugField(
+        default="", blank=True, null=True, unique=False
+    )  # TODO: Populate slugs and change `unique` to `True`
 
     def __str__(self):
         return self.title
