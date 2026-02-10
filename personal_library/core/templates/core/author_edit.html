@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}{% if is_new %}Add New Author{% else %}Edit {{ author.name }}{% endif %} - Personal Library{% endblock %}
+{% block title %}{% if not author %}Add New Author{% else %}Edit {{ author.name }}{% endif %} - Personal Library{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% if is_new %}/authors/{% else %}/authors/{{ author.slug }}/{% endif %}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <a href="{% if not author %}/authors/{% else %}/authors/{{ author.slug }}/{% endif %}" class="btn btn-secondary me-md-2">Cancel</a>
                             <button type="submit" class="btn btn-primary">{% if not author %}Create Author{% else %}Update Author{% endif %}</button>
                         </div>
                     </form>
