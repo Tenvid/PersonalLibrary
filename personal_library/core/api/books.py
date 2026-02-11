@@ -51,9 +51,9 @@ def create(request):
     return redirect("/books/")
 
 
-def delete(request, book_id):
+def delete(request, book_slug):
     try:
-        book = Book.objects.get(id=book_id)
+        book = Book.objects.get(slug=book_slug)
         book.delete()
         return redirect("/books/")
 

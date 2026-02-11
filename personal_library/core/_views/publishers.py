@@ -50,3 +50,18 @@ class PublisherCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("publisher_detail", kwargs={"slug": self.object.slug})
+
+
+from django.views.generic.edit import DeleteView
+
+
+class PublisherDeleteView(DeleteView):
+    model = Publisher
+    template_name = "core/publisher_confirm_delete.html"
+
+    def get_object(self):
+        publisher_slug = self.kwargs.get("slug")
+        return get_object_or_404(Publisher, slug=publisher_slug)
+
+    def get_success_url(self):
+        return reverse("publishers")

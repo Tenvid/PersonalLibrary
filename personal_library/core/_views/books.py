@@ -81,3 +81,18 @@ class BookCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("book_detail", kwargs={"slug": self.object.slug})
+
+
+from django.views.generic.edit import DeleteView
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    template_name = "core/book_confirm_delete.html"
+
+    def get_object(self):
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Book, slug=slug)
+
+    def get_success_url(self):
+        return reverse("books")

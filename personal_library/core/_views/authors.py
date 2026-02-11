@@ -55,3 +55,18 @@ class AuthorCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("author_detail", kwargs={"slug": self.object.slug})
+
+
+from django.views.generic.edit import DeleteView
+
+
+class AuthorDeleteView(DeleteView):
+    model = Author
+    template_name = "core/author_confirm_delete.html"
+
+    def get_object(self):
+        author_slug = self.kwargs.get("slug")
+        return get_object_or_404(Author, slug=author_slug)
+
+    def get_success_url(self):
+        return reverse("authors")

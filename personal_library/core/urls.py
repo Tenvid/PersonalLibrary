@@ -41,6 +41,11 @@ urlpatterns = [
         book_html_views.BookEditView.as_view(),
         name="book_edit",
     ),
+    path(
+        "books/delete/<slug:slug>/",
+        book_html_views.BookDeleteView.as_view(),
+        name="book_delete",
+    ),
     path("authors/", author_views.AuthorsListView.as_view(), name="authors"),
     path(
         "authors/create/",
@@ -56,6 +61,11 @@ urlpatterns = [
         "authors/edit/<slug:slug>/",
         author_views.AuthorEditView.as_view(),
         name="author_edit",
+    ),
+    path(
+        "authors/delete/<slug:slug>/",
+        author_views.AuthorDeleteView.as_view(),
+        name="author_delete",
     ),
     path(
         "publishers/", publisher_views.PublishersListView.as_view(), name="publishers"
@@ -74,5 +84,10 @@ urlpatterns = [
         "publishers/edit/<slug:slug>/",
         publisher_views.PublisherEditView.as_view(),
         name="publisher_edit",
+    ),
+    path(
+        "publishers/delete/<slug:slug>/",
+        publisher_views.PublisherDeleteView.as_view(),
+        name="publisher_delete",
     ),
 ]

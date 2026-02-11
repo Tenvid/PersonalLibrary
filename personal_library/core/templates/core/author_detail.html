@@ -14,8 +14,8 @@
 
     <div class="author-actions mb-4">
         <a href="/authors/" class="btn btn-secondary me-2">Back to All Authors</a>
-        <a href="/authors/edit/{{ author.slug }}/" class="btn btn-primary me-2">Edit Author</a>
-        <a href="#" onclick="deleteAuthor({{ author.id }}); return false;" class="btn btn-danger">Delete Author</a>
+        <a href="{% url 'author_edit' author.slug %}" class="btn btn-primary me-2">Edit Author</a>
+        <a href="{% url 'author_delete' author.slug %}" class="btn btn-danger">Delete Author</a>
     </div>
 
     <!-- Books by this Author -->
@@ -29,14 +29,14 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a href="/books/{{ book.id }}/" class="text-decoration-none">{{ book.title }}</a>
+                                        <a href="{% url 'book_detail' book.slug %}" class="text-decoration-none">{{ book.title }}</a>
                                     </h5>
                                     <p class="card-text"><strong>Publisher:</strong> {{ book.publisher.name|default:"N/A" }}</p>
                                     <p class="card-text"><strong>Publication Date:</strong> {{ book.publication_date }}</p>
                                     <p class="card-text"><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:20 }}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="/books/{{ book.id }}/" class="btn btn-primary">View Details</a>
+                                    <a href="{% url 'book_detail' book.slug %}" class="btn btn-primary">View Details</a>
                                 </div>
                             </div>
                         </div>
@@ -49,23 +49,12 @@
             {% endif %}
         {% endwith %}
     </div>
-
-    <form id="delete-form" method="post" action="/api/authors/delete/{{ author.id }}/" style="display: none;">
-        {% csrf_token %}
-    </form>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
     // Optional: Add JavaScript for enhanced functionality
-    function deleteAuthor(authorId) {
-        if (confirm('Are you sure you want to delete this author?')) {
-            // Submit the hidden form to delete the author
-            document.getElementById('delete-form').submit();
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         // Add any specific author detail page functionality here
     });

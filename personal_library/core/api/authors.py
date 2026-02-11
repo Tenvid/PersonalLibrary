@@ -47,9 +47,9 @@ def update(request, author_id):
     return redirect("/authors/")
 
 
-def delete(request, author_id):
+def delete(request, author_slug):
     try:
-        author = Author.objects.get(id=author_id)
+        author = Author.objects.get(slug=author_slug)
         author.delete()
         return redirect("/authors/")
     except Author.DoesNotExist:

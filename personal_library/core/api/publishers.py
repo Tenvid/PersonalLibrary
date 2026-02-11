@@ -48,9 +48,9 @@ def update(request, publisher_id):
     return redirect("/publishers/")
 
 
-def delete(request, publisher_id):
+def delete(request, publisher_slug):
     try:
-        publisher = Publisher.objects.get(id=publisher_id)
+        publisher = Publisher.objects.get(slug=publisher_slug)
         publisher.delete()
         return redirect("/publishers/")
     except Publisher.DoesNotExist:
