@@ -13,7 +13,7 @@ Esta aplicación permite gestionar una colección personal de libros, incluyendo
 - Gestión de autores y editoriales
 - Búsqueda de libros
 - Vista detallada de cada registro
-- API REST para operaciones de datos
+- API REST para operaciones de datos (FBV)
 - Panel de administración de Django Jazzmin
 - Base de datos SQLite con ejemplos pre-cargados
 - Estilo moderno con Bootstrap 5
