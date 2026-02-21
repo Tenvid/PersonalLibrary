@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import books, authors, publishers
+
 from core._views import authors as author_views
-from core._views import publishers as publisher_views
 from core._views import books as book_html_views
+from core._views import publishers as publisher_views
+from core._views import users as user_views
+
+from .views import authors, books, publishers
 
 urlpatterns = [
     path("", book_html_views.IndexView.as_view(), name="index"),
@@ -90,4 +93,5 @@ urlpatterns = [
         publisher_views.PublisherDeleteView.as_view(),
         name="publisher_delete",
     ),
+    path("register/", user_views.RegisterUserCreateView.as_view(), name="register"),
 ]
