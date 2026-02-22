@@ -31,6 +31,12 @@
                   <li class="nav-item">
                     <a class="nav-link" href="/publishers/">Publishers</a>
                   </li>
+                  <li class="nav-item {% if not user.is_authenticated %}d-none{% endif %}">
+                    <form method="POST" action="{% url 'logout'%}" class="d-flex">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-link nav-link mt-2" style="padding: 0;">Logout</button>
+                    </form>
+                  </li>
                 </ul>
               </div>
             </div>
