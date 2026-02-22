@@ -39,9 +39,15 @@
     </header>
 
     <main class="container mt-4">
-        {% block content %}
-        <!-- Main content will be added by child templates -->
-        {% endblock %}
+        {% if not user.is_authenticated %}
+        <div class="alert alert-warning text-center" role="alert">
+You are not logged in. Please <a href="{% url 'login' %}" class="alert-link">log in</a> to manage the library.
+        </div>
+        {% else %}
+          {% block content %}
+          <!-- Main content will be added by child templates -->
+          {% endblock %}
+        {% endif %}
     </main>
 
     <footer class="bg-dark text-light mt-5 py-4">
