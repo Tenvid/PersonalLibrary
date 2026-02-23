@@ -1,12 +1,13 @@
+from core.models import Publisher
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
-from core.models import Publisher
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 
-class PublishersListView(ListView):
+class PublishersListView(LoginRequiredMixin, ListView):
     model = Publisher
     template_name = "core/publishers.html"
     context_object_name = "publishers"
@@ -24,7 +25,7 @@ class PublishersListView(ListView):
         return context
 
 
-class PublisherDetailView(DetailView):
+class PublisherDetailView(LoginRequiredMixin, DetailView):
     model = Publisher
     template_name = "core/publisher_detail.html"
     context_object_name = "publisher"
@@ -34,7 +35,7 @@ class PublisherDetailView(DetailView):
         return get_object_or_404(Publisher, slug=slug)
 
 
-class PublisherEditView(UpdateView):
+class PublisherEditView(LoginRequiredMixin, UpdateView):
     model = Publisher
     template_name = "core/publisher_edit.html"
     fields = ["name", "country", "slug"]
@@ -52,10 +53,7 @@ class PublisherCreateView(CreateView):
         return reverse("publisher_detail", kwargs={"slug": self.object.slug})
 
 
-from django.views.generic.edit import DeleteView
-
-
-class PublisherDeleteView(DeleteView):
+class PublisherDeleteView(LoginRequiredMixin, DeleteView):
     model = Publisher
     template_name = "core/publisher_confirm_delete.html"
 

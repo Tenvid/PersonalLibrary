@@ -1,8 +1,9 @@
 from core.models import Author, Book, Publisher
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 
@@ -26,7 +27,7 @@ class IndexView(ListView):
         return context
 
 
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin, DetailView):
     model = Book
     template_name = "core/book_detail.html"
     context_object_name = "book"
@@ -36,7 +37,7 @@ class BookDetailView(DetailView):
         return get_object_or_404(Book, slug=slug)
 
 
-class BookEditView(UpdateView):
+class BookEditView(LoginRequiredMixin, UpdateView):
     model = Book
     template_name = "core/book_edit.html"
     fields = [
@@ -60,7 +61,7 @@ class BookEditView(UpdateView):
         return reverse("book_detail", kwargs={"slug": self.object.slug})
 
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     template_name = "core/book_edit.html"
     fields = [
@@ -83,10 +84,7 @@ class BookCreateView(CreateView):
         return reverse("book_detail", kwargs={"slug": self.object.slug})
 
 
-from django.views.generic.edit import DeleteView
-
-
-class BookDeleteView(DeleteView):
+class BookDeleteView(LoginRequiredMixin, DeleteView):
     model = Book
     template_name = "core/book_confirm_delete.html"
 

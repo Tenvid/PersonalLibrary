@@ -1,12 +1,13 @@
 from core.models import Author
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 
-class AuthorsListView(ListView):
+class AuthorsListView(LoginRequiredMixin, ListView):
     model = Author
     template_name = "core/authors.html"
     context_object_name = "authors"
@@ -24,7 +25,7 @@ class AuthorsListView(ListView):
         return context
 
 
-class AuthorDetailView(DetailView):
+class AuthorDetailView(LoginRequiredMixin, DetailView):
     model = Author
     template_name = "core/author_detail.html"
     context_object_name = "author"
@@ -34,7 +35,7 @@ class AuthorDetailView(DetailView):
         return get_object_or_404(Author, slug=author_slug)
 
 
-class AuthorEditView(UpdateView):
+class AuthorEditView(LoginRequiredMixin, UpdateView):
     model = Author
     template_name = "core/author_edit.html"
     fields = ["name", "biography", "slug"]
@@ -48,7 +49,7 @@ class AuthorEditView(UpdateView):
         return reverse("author_detail", kwargs={"slug": self.object.slug})
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(LoginRequiredMixin, CreateView):
     model = Author
     template_name = "core/author_edit.html"
     fields = ["name", "biography", "slug"]
@@ -57,10 +58,7 @@ class AuthorCreateView(CreateView):
         return reverse("author_detail", kwargs={"slug": self.object.slug})
 
 
-from django.views.generic.edit import DeleteView
-
-
-class AuthorDeleteView(DeleteView):
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
     model = Author
     template_name = "core/author_confirm_delete.html"
 
