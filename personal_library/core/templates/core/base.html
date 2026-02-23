@@ -37,6 +37,10 @@
                       <button type="submit" class="btn btn-link nav-link mt-2" style="padding: 0;">Logout</button>
                     </form>
                   </li>
+                  <li class="nav-item {% if user.is_authenticated %}d-none{% endif %}">
+                    <a href="{% url 'login' %}" class="btn btn-link nav-link mt-2" style="padding: 0;">Login</a>
+                    </form>
+                  </li>
                 </ul>
               </div>
             </div>
