@@ -4,6 +4,7 @@ from core._views import authors as author_views
 from core._views import books as book_html_views
 from core._views import publishers as publisher_views
 from core._views import users as user_views
+from core._views import rentals as rental_views
 from django.contrib.auth import views as auth_views
 
 from .views import authors, books, publishers
@@ -105,4 +106,10 @@ urlpatterns = [
         auth_views.LogoutView.as_view(template_name="users/logout.html"),
         name="logout",
     ),
+    path(
+        "rentals/create/",
+        rental_views.RentalCreateView.as_view(),
+        name="rental_create",
+    ),
+    path("rentals/", rental_views.RentalListView.as_view(), name="rentals"),
 ]

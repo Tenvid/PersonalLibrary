@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Rent a Book - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="h3 mb-0">Rent a Book</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="book" class="form-label">Book:</label>
+                            <select id="book" name="book" class="form-select" required>
+                                <option value="">Select a book to rent</option>
+                                {% for book in books %}
+                                    <option value="{{ book.id }}">{{ book.title }} by {{ book.author.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info" role="alert">
+                            <p class="mb-0"><strong>Rental Details:</strong></p>
+                            <ul class="mb-0 mt-2">
+                                <li>Rental period: 14 days</li>
+                                <li>Expected return date will be calculated automatically</li>
+                                <li>Status will be set to "RENTED"</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/" class="btn btn-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Rent Book</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific rental form functionality here
+    });
+</script>
+{% endblock %}

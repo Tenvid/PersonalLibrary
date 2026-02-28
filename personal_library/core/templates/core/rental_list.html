@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Rentals - Personal Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">My Rentals</h1>
+
+    <!-- Rent New Book Button -->
+    <div class="mb-4">
+        <a href="/rentals/create/" class="btn btn-primary">Rent a Book</a>
+    </div>
+
+    <!-- Rentals Table -->
+    <div class="rentals-section">
+        {% if rentals %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Book</th>
+                            <th>Rented At</th>
+                            <th>Expected Return</th>
+                            <th>Returned At</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rental in rentals %}
+                            <tr>
+                                <td>
+                                    <a href="/books/{{ rental.book.slug }}/">{{ rental.book.title }}</a>
+                                    <small class="text-muted d-block">by {{ rental.book.author.name }}</small>
+                                </td>
+                                <td>{{ rental.rented_at|date:"M d, Y" }}</td>
+                                <td>{{ rental.expected_return_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if rental.returned_at %}
+                                        {{ rental.returned_at|date:"M d, Y" }}
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if rental.status == 'RENTED' %}
+                                        <span class="badge bg-warning text-dark">{{ rental.status }}</span>
+                                    {% elif rental.status == 'ON_TIME' %}
+                                        <span class="badge bg-success">{{ rental.status }}</span>
+                                    {% elif rental.status == 'LATE' %}
+                                        <span class="badge bg-danger">{{ rental.status }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ rental.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&laquo; First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info">
+                You haven't rented any books yet.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any specific rentals list functionality here
+    });
+</script>
+{% endblock %}
