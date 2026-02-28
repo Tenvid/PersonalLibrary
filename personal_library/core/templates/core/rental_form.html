@@ -11,32 +11,41 @@
                     <h1 class="h3 mb-0">Rent a Book</h1>
                 </div>
                 <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
+                  {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
+                        {{ error }}
+                        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                  {% endif %}
 
-                        <div class="mb-3">
-                            <label for="book" class="form-label">Book:</label>
-                            <select id="book" name="book" class="form-select" required>
-                                <option value="">Select a book to rent</option>
-                                {% for book in books %}
-                                    <option value="{{ book.id }}">{{ book.title }} by {{ book.author.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                  <form method="post">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                          <label for="book" class="form-label">Book:</label>
+                          <select id="book" name="book" class="form-select" required>
+                              <option value="">Select a book to rent</option>
+                              {% for book in books %}
+                              <option value="{{ book.id }}" {% if selected_book.id == book.id %} selected {% endif %}>{{ book.title }} by {{ book.author.name }}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
 
-                        <div class="alert alert-info" role="alert">
-                            <p class="mb-0"><strong>Rental Details:</strong></p>
-                            <ul class="mb-0 mt-2">
-                                <li>Rental period: 14 days</li>
-                                <li>Expected return date will be calculated automatically</li>
-                                <li>Status will be set to "RENTED"</li>
-                            </ul>
-                        </div>
+                      <div class="alert alert-info" role="alert">
+                          <p class="mb-0"><strong>Rental Details:</strong></p>
+                          <ul class="mb-0 mt-2">
+                              <li>Rental period: 14 days</li>
+                              <li>Expected return date will be calculated automatically</li>
+                              <li>Status will be set to "RENTED"</li>
+                          </ul>
+                      </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="/" class="btn btn-secondary me-md-2">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Rent Book</button>
-                        </div>
+
+
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                          <a href="/" class="btn btn-secondary me-md-2">Cancel</a>
+                          <button type="submit" class="btn btn-primary">Rent Book</button>
+                      </div>
                     </form>
                 </div>
             </div>
@@ -44,11 +53,17 @@
     </div>
 </div>
 {% endblock %}
-
+/home/david/Caja Fuerte/001-Programming/006-MasterIntecssa/004-Python_Web_Programmer/exams/exam5/personal_library/core/templates/core/rental_form.html
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Add any specific rental form functionality here
+        const bookSelect = document.getElementById('book');
+        bookSelect.addEventListener('change', function() {
+            const errorAlert = document.getElementById('error-alert');
+            if (errorAlert) {
+                errorAlert.style.display = 'none';
+            }
+        });
     });
 </script>
 {% endblock %}

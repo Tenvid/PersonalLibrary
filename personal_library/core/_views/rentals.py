@@ -17,10 +17,18 @@ class RentalCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        selected_book = Book.objects.filter(slug=self.request.GET.get("book")).first()
 
         rented_books = Rental.objects.filter(
             status=RentalStatus.RENTED.value
         ).values_list("book_id", flat=True)
+
+        if selected_book.id not in rented_books:
+            context["selected_book"] = selected_book
+        else:
+            context["error"] = (
+                "This book is currently rented, please, select another one."
+            )
 
         context["books"] = Book.objects.exclude(id__in=rented_books)
 
