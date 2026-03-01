@@ -45,7 +45,9 @@
                                 <p class="card-text"><strong>Publication Date:</strong> {{ book.publication_date }}</p>
                                 <p class="card-text"><strong>Synopsis:</strong> {{ book.synopsis|truncatewords:30 }}</p>
                                 <a href="/books/{{ book.slug }}/" class="btn btn-primary mt-auto">View Details</a>
-                                <a href="/rentals/create/?book={{ book.slug }}" class="btn btn-info mt-1">Rent</a>
+                                {% if user.is_authenticated %}
+                                  <a href="/rentals/create/?book={{ book.slug }}" class="btn btn-info mt-1">Rent</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
