@@ -1,0 +1,73 @@
+{% extends "core/base.html" %}
+
+{% block title %}Profile - Personal Library{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">User Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ user.get_full_name|default:user.username }}</p>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Member since:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">My Rentals</h5>
+            </div>
+            <div class="card-body">
+                {% if rentals %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Rented At</th>
+                                <th>Expected Return</th>
+                                <th>Returned At</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rental in rentals %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'book_detail' rental.book.slug %}">
+                                        {{ rental.book.title }}
+                                    </a>
+                                </td>
+                                <td>{{ rental.rented_at|date:"M d, Y" }}</td>
+                                <td>{{ rental.expected_return_date|date:"M d, Y" }}</td>
+                                <td>{{ rental.returned_at|date:"M d, Y"|default:"-" }}</td>
+                                <td>
+                                    {% if rental.status == 'RENTED' %}
+                                        <span class="badge bg-warning text-dark">{{ rental.status }}</span>
+                                    {% elif rental.status == 'ON_TIME' %}
+                                        <span class="badge bg-success">{{ rental.status }}</span>
+                                    {% elif rental.status == 'LATE' %}
+                                        <span class="badge bg-danger">{{ rental.status }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ rental.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">You have no rentals yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

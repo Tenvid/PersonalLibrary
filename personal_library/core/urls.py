@@ -111,5 +111,6 @@ urlpatterns = [
         rental_views.RentalCreateView.as_view(),
         name="rental_create",
     ),
-    path("rentals/", rental_views.RentalListView.as_view(), name="rentals"),
+    # path("rentals/", rental_views.RentalListView.as_view(), name="rentals"),
+    path("user/", user_views.UserProfileView.as_view(), name="user_profile"),
 ]

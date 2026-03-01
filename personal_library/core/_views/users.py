@@ -1,8 +1,22 @@
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.models import User
+from core.models import Rental
+
+
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "users/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        rentals = Rental.objects.filter(user=user).select_related("book").order_by("-rented_at")
+        context["user"] = user
+        context["rentals"] = rentals
+        return context
 
 
 class RegisterUserForm(UserCreationForm):
