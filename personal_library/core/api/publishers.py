@@ -28,7 +28,7 @@ def create(request):
     name = request.POST.get("name")
     country = request.POST.get("country")
 
-    publisher = Publisher.objects.create(name=name, country=country)
+    publisher = Publisher.objects.create(name=name, country=country)  # noqa
     return redirect("/publishers/")
 
 

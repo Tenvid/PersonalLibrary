@@ -27,7 +27,7 @@ def create(request):
     name = request.POST.get("name")
     biography = request.POST.get("biography")
 
-    author = Author.objects.create(name=name, biography=biography)
+    author = Author.objects.create(name=name, biography=biography)  # noqa
     return redirect("/authors/")
 
 

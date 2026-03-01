@@ -41,7 +41,7 @@ def create(request):
     except Publisher.DoesNotExist:
         publisher = None
 
-    book = Book.objects.create(
+    book = Book.objects.create(  # noqa
         title=post_data["title"],
         author=author,
         publisher=publisher,
