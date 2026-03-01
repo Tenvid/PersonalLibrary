@@ -62,6 +62,15 @@ class RentalCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.status = RentalStatus.RENTED.value
+
+        # If there is already a rental with the book that hasn't been returned, show an error
+        if Rental.objects.filter(
+            book=form.instance.book, status=RentalStatus.RENTED.value
+        ).exists():
+            form.add_error(
+                "book", "This book is currently rented, please, select another one."
+            )
+            return self.form_invalid(form)
         return super().form_valid(form)
 
 
