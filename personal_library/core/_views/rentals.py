@@ -2,9 +2,34 @@ from core.models import Book, Rental, RentalStatus
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
+
+
+class ReturnRentalView(LoginRequiredMixin, UpdateView):
+    model = Rental
+    fields = []
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Rental, id=self.kwargs["rental_id"], user=self.request.user
+        )
+
+    def form_valid(self, form):
+        self.object.returned_at = timezone.now()
+
+        if self.object.returned_at <= self.object.expected_return_date:
+            self.object.status = RentalStatus.ON_TIME.value
+        else:
+            self.object.status = RentalStatus.LATE.value
+
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("user_profile")
 
 
 class RentalCreateView(LoginRequiredMixin, CreateView):

@@ -34,6 +34,7 @@
                                 <th>Expected Return</th>
                                 <th>Returned At</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,6 +57,14 @@
                                         <span class="badge bg-danger">{{ rental.status }}</span>
                                     {% else %}
                                         <span class="badge bg-secondary">{{ rental.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if rental.status == 'RENTED' %}
+                                    <form method="POST" action="{% url 'rental_return' rental.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-success">Return</button>
+                                    </form>
                                     {% endif %}
                                 </td>
                             </tr>
